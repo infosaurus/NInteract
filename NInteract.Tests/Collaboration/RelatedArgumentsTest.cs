@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using Ninteract.Engine.Exceptions;
 
 namespace NInteract.Tests.Collaboration
 {
@@ -35,11 +36,20 @@ namespace NInteract.Tests.Collaboration
              .ShouldTell(assistant => assistant.PrintAutographs(TheSame<int>()));
         }
 
-        //[Test]
-        //public void ShouldTell_RelatedArgumentsWithVariables_Positive()
-        //{
-        //    A.CallTo(star => star.JustMet(Some<string>(), Some<int>()))
-        //     .ShouldTell(assistant => assistant.AddAddressBookEntry(It.Is<ContactInfo>(c => c.Name == TheSame<string>() && c.PhoneNumber == TheSame<int>())));
-        //}
+        [Test]
+        public void ShouldTell_RelatedArgumentsWithVariables_Positive()
+        {
+            A.CallTo(star => star.JustMet(Some<string>(), Some<int>()))
+             .ShouldTell(assistant => assistant.AddAddressBookEntry(Some<ContactInfo>(c => c.Name == TheSame<string>() 
+                                                                                        && c.PhoneNumber == TheSame<int>())));
+        }
+
+        [Test]
+        [ExpectedException(typeof(DidntTellException))]
+        public void ShouldTell_RelatedArgumentsWithVariables_Negative()
+        {
+            A.CallTo(star => star.JustMet(Some<string>(), Some<int>()))
+             .ShouldTell(assistant => assistant.AddAddressBookEntry(Some<ContactInfo>(c => c.Name == string.Empty)));
+        }
     }
 }

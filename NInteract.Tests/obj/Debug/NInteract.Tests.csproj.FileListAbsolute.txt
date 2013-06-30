@@ -12,3 +12,7 @@ C:\Users\ianmc_000\Documents\Dev\Projects\Ninteract\NInteract.Tests\bin\Debug\Pl
 C:\Users\ianmc_000\Documents\Dev\Projects\Ninteract\NInteract.Tests\bin\Debug\Ploeh.AutoFixture.AutoMoq.xml
 C:\Users\ianmc_000\Documents\Dev\Projects\Ninteract\NInteract.Tests\obj\Debug\NInteract.Tests.dll
 C:\Users\ianmc_000\Documents\Dev\Projects\Ninteract\NInteract.Tests\obj\Debug\NInteract.Tests.pdb
+C:\Users\ianmc_000\Documents\Dev\Projects\Ninteract\NInteract.Tests\bin\Debug\Ninteract.Engine.dll
+C:\Users\ianmc_000\Documents\Dev\Projects\Ninteract\NInteract.Tests\bin\Debug\Ninteract.Adapters.dll
+C:\Users\ianmc_000\Documents\Dev\Projects\Ninteract\NInteract.Tests\bin\Debug\Ninteract.Engine.pdb
+C:\Users\ianmc_000\Documents\Dev\Projects\Ninteract\NInteract.Tests\bin\Debug\Ninteract.Adapters.pdb

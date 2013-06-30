@@ -1,4 +1,5 @@
 ﻿using NUnit.Framework;
+using Ninteract.Engine.Exceptions;
 
 namespace NInteract.Tests.Collaboration
 {

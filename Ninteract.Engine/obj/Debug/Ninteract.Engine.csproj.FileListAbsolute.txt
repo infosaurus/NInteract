@@ -1,0 +1,5 @@
+C:\Users\ianmc_000\Documents\Dev\Projects\Ninteract\Ninteract.Engine\bin\Debug\Ninteract.Engine.dll
+C:\Users\ianmc_000\Documents\Dev\Projects\Ninteract\Ninteract.Engine\bin\Debug\Ninteract.Engine.pdb
+C:\Users\ianmc_000\Documents\Dev\Projects\Ninteract\Ninteract.Engine\obj\Debug\Ninteract.Engine.csprojResolveAssemblyReference.cache
+C:\Users\ianmc_000\Documents\Dev\Projects\Ninteract\Ninteract.Engine\obj\Debug\Ninteract.Engine.dll
+C:\Users\ianmc_000\Documents\Dev\Projects\Ninteract\Ninteract.Engine\obj\Debug\Ninteract.Engine.pdb

@@ -2,7 +2,8 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Linq.Expressions;
-using NInteract.Exceptions;
+using Ninteract.Engine;
+using Ninteract.Engine.Exceptions;
 
 namespace NInteract
 {

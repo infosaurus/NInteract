@@ -7,8 +7,8 @@
     <ProjectGuid>{21FA3D0D-CA87-4B91-AF06-24792B871FDA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>NInteract.Tests</RootNamespace>
-    <AssemblyName>NInteract.Tests</AssemblyName>
+    <RootNamespace>Ninteract.Tests</RootNamespace>
+    <AssemblyName>Ninteract.Tests</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
   </PropertyGroup>
@@ -49,9 +49,13 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Ninteract\Ninteract.csproj">
+    <ProjectReference Include="..\Ninteract.Engine\Ninteract.Engine.csproj">
+      <Project>{C05957A7-8D95-4B41-A9C4-F8488576DAC8}</Project>
+      <Name>Ninteract.Engine</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Ninteract\Ninteract.Syntax.csproj">
       <Project>{18af8931-5af4-4093-b0c2-62dd1aafef3a}</Project>
-      <Name>Ninteract</Name>
+      <Name>Ninteract.Syntax</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

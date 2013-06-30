@@ -1,0 +1,12 @@
+C:\Users\ianmc_000\Documents\Dev\Projects\Ninteract\NInteract.Adapters\bin\AutoTest.Net\_tmpIntermediateAT\Ninteract.Adapters.csprojResolveAssemblyReference.cache
+C:\Users\ianmc_000\Documents\Dev\Projects\Ninteract\NInteract.Adapters\bin\AutoTest.Net\_tmpIntermediateAT\Ninteract.Adapters.dll
+C:\Users\ianmc_000\Documents\Dev\Projects\Ninteract\NInteract.Adapters\bin\AutoTest.Net\_tmpIntermediateAT\Ninteract.Adapters.pdb
+C:\Users\ianmc_000\Documents\Dev\Projects\Ninteract\NInteract.Adapters\bin\AutoTest.Net\Ninteract.Adapters.dll
+C:\Users\ianmc_000\Documents\Dev\Projects\Ninteract\NInteract.Adapters\bin\AutoTest.Net\Ninteract.Adapters.pdb
+C:\Users\ianmc_000\Documents\Dev\Projects\Ninteract\NInteract.Adapters\bin\AutoTest.Net\Moq.dll
+C:\Users\ianmc_000\Documents\Dev\Projects\Ninteract\NInteract.Adapters\bin\AutoTest.Net\Ninteract.Engine.dll
+C:\Users\ianmc_000\Documents\Dev\Projects\Ninteract\NInteract.Adapters\bin\AutoTest.Net\Ploeh.AutoFixture.dll
+C:\Users\ianmc_000\Documents\Dev\Projects\Ninteract\NInteract.Adapters\bin\AutoTest.Net\Ninteract.Engine.pdb
+C:\Users\ianmc_000\Documents\Dev\Projects\Ninteract\NInteract.Adapters\bin\AutoTest.Net\Ploeh.AutoFixture.xml
+C:\Users\ianmc_000\Documents\Dev\Projects\Ninteract\NInteract.Adapters\bin\AutoTest.Net\Ploeh.AutoFixture.AutoMoq.dll
+C:\Users\ianmc_000\Documents\Dev\Projects\Ninteract\NInteract.Adapters\bin\AutoTest.Net\Ploeh.AutoFixture.AutoMoq.xml
