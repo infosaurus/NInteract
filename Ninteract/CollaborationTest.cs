@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq.Expressions;
+using Ninteract;
 using Ninteract.Adapters;
 using Ninteract.Engine;
 
@@ -13,11 +14,11 @@ namespace NInteract
         private IParameterFactory _parameterFactory = new AutoFixtureParameterFactory();
         private ICollaboratorCallParameterBuilder _collaboratorCallParameterBuilder = new MoqCollaboratorCallParameterBuilder();
 
-        public ICaller<TSut, TCollaborator> A 
+        public ICallable<TSut, TCollaborator> A 
         { 
             get
             {
-                return new Caller<TSut, TCollaborator>();
+                return new AssertionBuilder<TSut, TCollaborator>();
             } 
         }
 
