@@ -53,7 +53,7 @@
   <ItemGroup>
     <Compile Include="AutoFixtureDependencyContainer.cs" />
     <Compile Include="AutoFixtureParameterFactory.cs" />
-    <Compile Include="MoqCollaboratorCallParameterBuilder.cs" />
+    <Compile Include="MoqExpectedParameterFactory.cs" />
     <Compile Include="MoqFactory.cs" />
     <Compile Include="MoqFake.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

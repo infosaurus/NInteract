@@ -52,7 +52,6 @@ namespace NInteract.Tests.Collaboration
              .ShouldTell(assistant => assistant.GetVegasPlaneSchedule(null));
         }
 
-
         [Test]
         public void ShouldTell_MultipleArguments_Positive()
         {
