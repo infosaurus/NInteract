@@ -5,7 +5,7 @@ namespace NInteract
 {
      public interface IVerifiable<TCollaborator> where TCollaborator : class
     {
-        void ShouldTell(Expression<Action<TCollaborator>> action);
-        void ShouldAsk<TResult>(Expression<Func<TCollaborator, TResult>> function);
+         IChainable<TCollaborator> ShouldTell(Expression<Action<TCollaborator>> action);
+         IChainable<TCollaborator> ShouldAsk<TResult>(Expression<Func<TCollaborator, TResult>> function);
     }
 }

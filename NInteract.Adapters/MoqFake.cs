@@ -10,7 +10,7 @@ namespace Ninteract.Adapters
     {
         private Mock<T> _moqFake;
 
-        public T Placeholder { get { return _moqFake.Object; } }
+        public T Illusion { get { return _moqFake.Object; } }
 
         public MoqFake()
         {
@@ -27,7 +27,6 @@ namespace Ninteract.Adapters
             {
                 throw new VerifyException(moqException);
             }
-            
         }
 
         public void Verify<TResult>(Expression<Func<T, TResult>> expression)

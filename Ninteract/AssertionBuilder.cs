@@ -6,8 +6,9 @@ using Ninteract.Engine;
 
 namespace Ninteract
 {
-    internal class AssertionBuilder<TSut, TCollaborator> : ICallable<TSut, TCollaborator>,
-                                                           IVerifiable<TCollaborator>
+    internal class AssertionBuilder<TSut, TCollaborator> : ICallable    <TSut, TCollaborator>,
+                                                           IVerifiable  <TCollaborator>,
+                                                           IChainable   <TCollaborator>
                                                            where TSut          : class
                                                            where TCollaborator : class
     {
@@ -29,16 +30,23 @@ namespace Ninteract
             return this;
         }
 
-        public void ShouldTell(Expression<Action<TCollaborator>> action)
+        public IChainable<TCollaborator> ShouldTell(Expression<Action<TCollaborator>> action)
         {
-            _ninteractEngine.Expectation = new TellExpectation<TSut, TCollaborator>(action);
+            _ninteractEngine.Expect(new TellExpectation<TSut, TCollaborator>(action));
             _ninteractEngine.Run();
+            return this;
         }
 
-        public void ShouldAsk<TResult>(Expression<Func<TCollaborator, TResult>> function)
+        public IChainable<TCollaborator> ShouldAsk<TResult>(Expression<Func<TCollaborator, TResult>> function)
         {
-            _ninteractEngine.Expectation = new AskExpectation<TSut, TCollaborator, TResult>(function);
+            _ninteractEngine.Expect(new AskExpectation<TSut, TCollaborator, TResult>(function));
             _ninteractEngine.Run();
+            return this;
+        }
+
+        public IVerifiable<TCollaborator> And()
+        {
+            return this;
         }
 
         public T Some<T>()

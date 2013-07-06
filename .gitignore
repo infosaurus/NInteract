@@ -1,6 +1,6 @@
 **/bin/
 **/obj/
-*.suo
-*.user
-*.dll
-*.pdb
+**/*.suo
+**/*.user
+**/*.dll
+**/*.pdb

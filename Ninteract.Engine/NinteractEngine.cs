@@ -9,12 +9,11 @@ namespace Ninteract.Engine
     {
         private TSut _sut;
         private IList<IFake<TCollaborator>> _fakeCollaborators = new List<IFake<TCollaborator>>();
+        private IList<IExpectation<TCollaborator>> _expectations = new List<IExpectation<TCollaborator>>();
         private IFakeFactory<TCollaborator> _fakeCollaboratorFactory;
         private IDependencyContainer<TSut, TCollaborator> _dependencyContainer;
 
         public Stimulus<TSut> Stimulus { get; set; }
-
-        public IExpectation<TCollaborator> Expectation { get; set; }
 
         public NinteractEngine(IDependencyContainer<TSut, TCollaborator> dependencyContainer, IFakeFactory<TCollaborator> fakeFactory)
         {
@@ -25,9 +24,14 @@ namespace Ninteract.Engine
             {
                 var collaborator = _fakeCollaboratorFactory.Create();
                 _fakeCollaborators.Add(collaborator);
-                return collaborator.Placeholder;
+                return collaborator.Illusion;
             });
             _sut = _dependencyContainer.CreateSut();
+        }
+
+        public void Expect(IExpectation<TCollaborator> expectation)
+        {
+            _expectations.Add(expectation);
         }
 
         public void Run()
@@ -35,7 +39,7 @@ namespace Ninteract.Engine
             TriggerStimulus();
             var mock = GetCollaboratorMockOrThrow();
 
-            Expectation.VerifyAgainst(mock);
+            _expectations.ToList().ForEach(e => e.VerifyAgainst(mock));
         }
 
         private void TriggerStimulus()

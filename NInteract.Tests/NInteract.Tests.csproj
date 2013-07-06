@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collaboration\ChainedShouldsTest.cs" />
     <Compile Include="Collaboration\GuineaPigs.cs" />
     <Compile Include="Collaboration\RelatedArgumentsTest.cs" />
     <Compile Include="Collaboration\ShouldAskTest.cs" />

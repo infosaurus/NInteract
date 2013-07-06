@@ -5,9 +5,11 @@ namespace NInteract.Tests.Collaboration
     public interface IAssistant
     {
         void PrepareADrink();
+        void ServeDrink();
         void CallACab();
         void BuySandwiches(int number);
         object GetVegasPlaneSchedule(object timeFrame);
+        void BookPlaneToVegas();
         object GiveNextAppointment();
         void MakeCoffee(Coffee coffee, int nbSugars, bool withMilk);
         void PrintAutographs(int number);
@@ -15,6 +17,8 @@ namespace NInteract.Tests.Collaboration
         DateTime GetMasseurNextAvailability(int duration);
         decimal GiveTotalFee(decimal hourlyRate, bool includesAccommodation, CalculationPolicy calculationPolicy);
         void AddAddressBookEntry(ContactInfo contactInfo);
+
+        string Goo { get; set; }
     }
 
     public class Star
@@ -29,6 +33,7 @@ namespace NInteract.Tests.Collaboration
         public void Thirsty()
         {
             _assistant.PrepareADrink();
+            _assistant.ServeDrink();
         }
 
         public void Hungry()
@@ -64,6 +69,7 @@ namespace NInteract.Tests.Collaboration
         public void NeedsSomeFun()
         {
             _assistant.GetVegasPlaneSchedule(null);
+            _assistant.BookPlaneToVegas();
         }
 
         public void SignContract()
