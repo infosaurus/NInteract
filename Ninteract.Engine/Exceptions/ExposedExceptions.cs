@@ -15,4 +15,28 @@ namespace Ninteract.Engine.Exceptions
         { 
         }
     }
+
+    public class DidntGetException : Exception
+    {
+        public DidntGetException(string message, Exception innerException)
+            : base(message, innerException)
+        {
+        }
+    }
+
+    public class DidntSetException : Exception
+    {
+        public DidntSetException(string message, Exception innerException)
+            : base(message, innerException)
+        {
+        }
+    }    
+    
+    public class DidntThrowException : Exception
+    {
+        public DidntThrowException(string message)
+            : base(message, null)
+        {
+        }
+    }
 }

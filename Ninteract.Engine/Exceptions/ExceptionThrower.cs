@@ -10,7 +10,7 @@ namespace Ninteract.Engine.Exceptions
             where TSut          : class
             where TCollaborator : class
         {
-            var message = ExceptionMessageBuilder.GetDidntTellMessage<TSut, TCollaborator>(tellAction);
+            var message = ExceptionMessageBuilder.CreateDidntTellMessage<TSut, TCollaborator>(tellAction);
             throw new DidntTellException(message, originalException);
         }
 
@@ -19,8 +19,32 @@ namespace Ninteract.Engine.Exceptions
             where TSut          : class
             where TCollaborator : class
         {
-            var message = ExceptionMessageBuilder.GetDidntAskMessage<TSut, TCollaborator, TResult>(askFunction);
+            var message = ExceptionMessageBuilder.CreateDidntAskMessage<TSut, TCollaborator, TResult>(askFunction);
             throw new DidntAskException(message, originalException);
+        }
+
+        public static void ThrowDidntGet<TSut, TCollaborator, TResult>(Expression<Func<TCollaborator, TResult>> getFunction,
+                                                                        VerifyException originalException)
+            where TSut          : class
+            where TCollaborator : class
+        {
+            var message = ExceptionMessageBuilder.CreateDidntGetMessage<TSut, TCollaborator, TResult>(getFunction);
+            throw new DidntGetException(message, originalException);
+        }
+
+        public static void ThrowDidntSet<TSut, TCollaborator>(Action<TCollaborator> setAction,
+                                                              VerifyException originalException)
+            where TSut          : class
+            where TCollaborator : class
+        {
+            var message = ExceptionMessageBuilder.CreateDidntSetMessage<TSut, TCollaborator>(setAction);
+            throw new DidntSetException(message, originalException);
+        }
+
+        public static void ThrowDidntThrow<TSut>(Type exceptionType)
+        {
+            var message = ExceptionMessageBuilder.CreateDidntThrowMessage<TSut>(exceptionType);
+            throw new DidntThrowException(message);
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace NInteract.Tests.Collaboration
+namespace Ninteract.Tests.Collaboration
 {
     public interface IAssistant
     {
@@ -14,11 +14,13 @@ namespace NInteract.Tests.Collaboration
         void MakeCoffee(Coffee coffee, int nbSugars, bool withMilk);
         void PrintAutographs(int number);
         object GiveCreditCard();
-        DateTime GetMasseurNextAvailability(int duration);
+        DateTime? GetMasseurNextAvailability(int duration);
         decimal GiveTotalFee(decimal hourlyRate, bool includesAccommodation, CalculationPolicy calculationPolicy);
         void AddAddressBookEntry(ContactInfo contactInfo);
 
-        string Goo { get; set; }
+        object Pen { get; set; }
+        bool IsHungry { get; set; }
+        decimal Salary { get; set; }
     }
 
     public class Star
@@ -38,7 +40,9 @@ namespace NInteract.Tests.Collaboration
 
         public void Hungry()
         {
+            var assistantHungryToo = _assistant.IsHungry;
             _assistant.BuySandwiches(3);
+            _assistant.IsHungry = false;
         }
 
         public void Tired()
@@ -53,7 +57,8 @@ namespace NInteract.Tests.Collaboration
 
         public void SignAutographs(int number)
         {
-            _assistant.PrintAutographs(number);
+            if (_assistant.Pen == null)
+                _assistant.PrintAutographs(number);
         }
 
         public void Bored()
@@ -63,7 +68,10 @@ namespace NInteract.Tests.Collaboration
 
         public void BackAches()
         {
-            _assistant.GetMasseurNextAvailability(2);
+            if (_assistant.GetMasseurNextAvailability(2) > DateTime.Now.AddDays(2))
+            {
+                throw new OutOfControlException();
+            }
         }
 
         public void NeedsSomeFun()
@@ -85,6 +93,11 @@ namespace NInteract.Tests.Collaboration
         public void JustMet(string name, int phoneNumber)
         {
             _assistant.AddAddressBookEntry(new ContactInfo(name, phoneNumber));
+        }
+
+        public void Generous()
+        {
+            _assistant.Salary = _assistant.Salary * 1.05m;
         }
     }
 
@@ -128,5 +141,9 @@ namespace NInteract.Tests.Collaboration
             Name = name;
             PhoneNumber = phoneNumber;
         }
+    }
+
+    public class OutOfControlException : Exception
+    {
     }
 }

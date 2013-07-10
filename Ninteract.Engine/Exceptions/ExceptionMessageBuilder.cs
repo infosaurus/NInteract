@@ -7,7 +7,7 @@ namespace Ninteract.Engine.Exceptions
 {
     internal static class ExceptionMessageBuilder
     {
-        internal static string GetDidntTellMessage<TSut, TCollaborator>(Expression<Action<TCollaborator>> tellAction)
+        internal static string CreateDidntTellMessage<TSut, TCollaborator>(Expression<Action<TCollaborator>> tellAction)
             where TSut          : class
             where TCollaborator : class
         {
@@ -19,7 +19,7 @@ namespace Ninteract.Engine.Exceptions
             return message;
         }
 
-        public static string GetDidntAskMessage<TSut, TCollaborator, TResult>(Expression<Func<TCollaborator, TResult>> askFunction)
+        public static string CreateDidntAskMessage<TSut, TCollaborator, TResult>(Expression<Func<TCollaborator, TResult>> askFunction)
             where TSut          : class
             where TCollaborator : class
         {
@@ -31,17 +31,54 @@ namespace Ninteract.Engine.Exceptions
             return message;
         }
 
+        public static string CreateDidntGetMessage<TSut, TCollaborator, TResult>(Expression<Func<TCollaborator, TResult>> getFunction)
+            where TSut          : class
+            where TCollaborator : class
+        {
+            var formattedMethodCall = GetFormattedPropertyCall(getFunction);
+            var message = string.Format("The {0} under test didn't get its {1} collaborator's {2}.",
+                                        typeof(TSut).Name,
+                                        typeof(TCollaborator).Name,
+                                        formattedMethodCall);
+            return message;
+        }
+
+        public static string CreateDidntSetMessage<TSut, TCollaborator>(Action<TCollaborator> setAction)
+            where TSut : class
+            where TCollaborator : class
+        {
+            var message = string.Format("The {0} under test didn't set one of its {1} collaborator's properties.",
+                                        typeof(TSut).Name,
+                                        typeof(TCollaborator).Name);
+            return message;
+        }
+
+        public static string CreateDidntThrowMessage<TSut>(Type exceptionType)
+        {
+            return string.Format("The {0} under test didn't throw a(n) {1}.",
+                                 typeof (TSut).Name,
+                                 exceptionType.Name);
+        }
+
         private static string GetFormattedMethodCall<TCollaborator>(Expression<Action<TCollaborator>> tellAction)
             where TCollaborator : class
         {
             var tellMethodCall = ((MethodCallExpression)tellAction.Body);
             return GetFormattedMethodCall(tellMethodCall);
         }
+
         private static string GetFormattedMethodCall<TCollaborator, TResult>(Expression<Func<TCollaborator, TResult>> askFunction)
             where TCollaborator : class
         {
-            var tellMethodCall = ((MethodCallExpression)askFunction.Body);
-            return GetFormattedMethodCall(tellMethodCall);
+            var askMethodCall = ((MethodCallExpression)askFunction.Body);
+            return GetFormattedMethodCall(askMethodCall);
+        }
+
+        private static string GetFormattedPropertyCall<TCollaborator, TResult>(Expression<Func<TCollaborator, TResult>> propertyCall)
+            where TCollaborator : class
+        {
+            var propertyAccess = ((MemberExpression)propertyCall.Body);
+            return propertyAccess.Member.Name;
         }
 
         private static string GetFormattedMethodCall(MethodCallExpression methodCall)

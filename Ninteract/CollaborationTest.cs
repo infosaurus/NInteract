@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Linq.Expressions;
-using Ninteract;
 
-namespace NInteract
+namespace Ninteract
 {
     /// <summary>
     /// Base class for NInteract collaboration tests. Provides syntax starters and shortcuts for expressing assertions
@@ -23,9 +22,16 @@ namespace NInteract
             } 
         }
 
+        public IShouldChainer And { get { return new AndShouldChainer(); } }
+
         public T Some<T>()
         {
             return _assertionBuilder.Some<T>();
+        }
+
+        public T Any<T>()
+        {
+            return _assertionBuilder.Any<T>();
         }
 
         public T Some<T>(Expression<Predicate<T>> predicate)

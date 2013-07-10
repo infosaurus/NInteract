@@ -1,8 +1,7 @@
-﻿using System;
-using NUnit.Framework;
+﻿using NUnit.Framework;
 using Ninteract.Engine.Exceptions;
 
-namespace NInteract.Tests.Collaboration
+namespace Ninteract.Tests.Collaboration
 {
     public class ShouldAskTest : CollaborationTest<Star, IAssistant>
     {

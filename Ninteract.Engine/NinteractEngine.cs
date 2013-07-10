@@ -9,9 +9,10 @@ namespace Ninteract.Engine
     {
         private TSut _sut;
         private IList<IFake<TCollaborator>> _fakeCollaborators = new List<IFake<TCollaborator>>();
-        private IList<IExpectation<TCollaborator>> _expectations = new List<IExpectation<TCollaborator>>();
+        private IList<ICollaboratorExpectation<TCollaborator>> _expectations = new List<ICollaboratorExpectation<TCollaborator>>();
         private IFakeFactory<TCollaborator> _fakeCollaboratorFactory;
         private IDependencyContainer<TSut, TCollaborator> _dependencyContainer;
+        private IEncompassingExpectation _headEncompassingExpectation;
 
         public Stimulus<TSut> Stimulus { get; set; }
 
@@ -29,15 +30,18 @@ namespace Ninteract.Engine
             _sut = _dependencyContainer.CreateSut();
         }
 
-        public void Expect(IExpectation<TCollaborator> expectation)
+        public void Expect(ICollaboratorExpectation<TCollaborator> expectation)
         {
             _expectations.Add(expectation);
         }
 
         public void Run()
         {
-            TriggerStimulus();
-            var mock = GetCollaboratorMockOrThrow();
+            if (_headEncompassingExpectation != null)
+                _headEncompassingExpectation.TriggerAndVerify(Stimulus, _sut);
+            else
+                TriggerStimulus();
+            var mock = GetFakeCollaboratorOrThrow();
 
             _expectations.ToList().ForEach(e => e.VerifyAgainst(mock));
         }
@@ -47,29 +51,43 @@ namespace Ninteract.Engine
             Stimulus.ApplyTo(_sut);
         }
 
-        private IFake<TCollaborator> GetCollaboratorMockOrThrow(Func<IFake<TCollaborator>, bool> mockSelector = null)
+        private IFake<TCollaborator> GetFakeCollaboratorOrThrow(Func<IFake<TCollaborator>, bool> fakeSelector = null)
         {
-            IFake<TCollaborator> mock;
+            IFake<TCollaborator> fake;
             var noCollaboratorSelectorPrecisionMessage = string.Empty;
-            if (mockSelector == null)
+            if (fakeSelector == null)
             {
                 if (_fakeCollaborators.Count > 1)
                     throw new InvalidOperationException(
                         string.Format(
                             "Type {0} has more than 1 injectable collaborator of type {1}. Use a selector to choose one of them.",
                             typeof(TSut).FullName, typeof(TCollaborator).FullName));
-                mockSelector = anyMock => true; // there's only one anyway
+                fakeSelector = anyFake => true; // there's only one anyway
             }
             else
             {
                 noCollaboratorSelectorPrecisionMessage = "matching selector";
             }
-            mock = _fakeCollaborators.FirstOrDefault(mockSelector);
-            if (mock == null)
+            fake = _fakeCollaborators.FirstOrDefault(fakeSelector);
+            if (fake == null)
             {
                 throw new InvalidOperationException(string.Format("Type {0} has no injectable collaborator of type {1} {2}.", typeof(TSut).FullName, typeof(TCollaborator).FullName, noCollaboratorSelectorPrecisionMessage));
             }
-            return mock;
+            return fake;
+        }
+
+        public void Assume<TValue>(ReturnsAssumption<TCollaborator, TValue> returnsAssumption)
+        {
+            var fake = GetFakeCollaboratorOrThrow();
+            returnsAssumption.ApplyOn(fake);
+        }
+
+        public void AddEncompassingExpectation(IEncompassingExpectation expectation)
+        {
+            if (_headEncompassingExpectation == null)
+                _headEncompassingExpectation = expectation;
+            else
+                _headEncompassingExpectation.Enqueue(expectation);
         }
     }
 }

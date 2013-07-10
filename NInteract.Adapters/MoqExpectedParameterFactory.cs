@@ -11,5 +11,10 @@ namespace Ninteract.Adapters
         {
             return It.Is<T>(predicate);
         }
+
+        public T Create<T>()
+        {
+            return It.IsAny<T>();
+        }
     }
 }

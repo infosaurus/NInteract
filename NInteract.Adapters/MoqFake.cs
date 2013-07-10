@@ -17,6 +17,11 @@ namespace Ninteract.Adapters
             _moqFake = new Mock<T>();
         }
 
+        public void SetupReturns<TResult>(Expression<Func<T, TResult>> function, TResult result)
+        {
+            _moqFake.Setup(function).Returns(result);
+        }
+
         public void Verify(Expression<Action<T>> expression)
         {
             try
@@ -34,6 +39,30 @@ namespace Ninteract.Adapters
             try
             {
                 _moqFake.Verify(expression);
+            }
+            catch (Moq.MockException moqException)
+            {
+                throw new VerifyException(moqException);
+            }
+        }
+
+        public void VerifyGet<TResult>(Expression<Func<T, TResult>> expression)
+        {
+            try
+            {
+                _moqFake.VerifyGet(expression);
+            }
+            catch (Moq.MockException moqException)
+            {
+                throw new VerifyException(moqException);
+            }
+        }
+
+        public void VerifySet(Action<T> setAction)
+        {
+            try
+            {
+                _moqFake.VerifySet(setAction);
             }
             catch (Moq.MockException moqException)
             {

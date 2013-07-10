@@ -42,11 +42,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Collaboration\AnyTest.cs" />
+    <Compile Include="Collaboration\AssumingTest.cs" />
     <Compile Include="Collaboration\ChainedShouldsTest.cs" />
     <Compile Include="Collaboration\GuineaPigs.cs" />
     <Compile Include="Collaboration\RelatedArgumentsTest.cs" />
     <Compile Include="Collaboration\ShouldAskTest.cs" />
+    <Compile Include="Collaboration\ShouldGetTest.cs" />
+    <Compile Include="Collaboration\ShouldSetTest.cs" />
     <Compile Include="Collaboration\ShouldTellTest.cs" />
+    <Compile Include="Collaboration\ShouldThrowTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

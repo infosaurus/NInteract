@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Linq.Expressions;
 
-namespace NInteract
+namespace Ninteract
 {
     public interface ICallable<TSut, TCollaborator> where TSut          : class
                                                     where TCollaborator : class
     {
-        IVerifiable<TCollaborator> CallTo(Expression<Action<TSut>> expression);
+        IAssertable<TSut, TCollaborator> CallTo(Expression<Action<TSut>> expression);
     }
 }
