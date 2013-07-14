@@ -82,6 +82,27 @@ namespace Ninteract.Engine
             returnsAssumption.ApplyOn(fake);
         }
 
+        public void Assume<TException>(ActionThrowsAssumption<TCollaborator, TException> actionThrowsAssumption) 
+            where TException : Exception, new()
+        {
+            var fake = GetFakeCollaboratorOrThrow();
+            actionThrowsAssumption.ApplyOn(fake);
+        }
+
+        public void Assume<TException, TValue>(FunctionThrowsAssumption<TCollaborator, TException, TValue> actionThrowsAssumption) 
+            where TException : Exception, new()
+        {
+            var fake = GetFakeCollaboratorOrThrow();
+            actionThrowsAssumption.ApplyOn(fake);
+        }
+
+        public void Assume<TException>(SetActionThrowsAssumption<TCollaborator, TException> actionThrowsAssumption)
+            where TException : Exception, new()
+        {
+            var fake = GetFakeCollaboratorOrThrow();
+            actionThrowsAssumption.ApplyOn(fake);
+        }
+
         public void AddEncompassingExpectation(IEncompassingExpectation expectation)
         {
             if (_headEncompassingExpectation == null)

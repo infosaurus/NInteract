@@ -6,6 +6,8 @@ namespace Ninteract
     public interface IAssumable<TSut, TCollaborator> where TSut          : class
                                                      where TCollaborator : class
     {
-        IAssumptionSubject<TSut, TCollaborator, TValue> Assuming<TValue>(Expression<Func<TCollaborator, TValue>> function);
+        IAskAssumptionSubject<TSut, TCollaborator, TValue> Assuming<TValue>(Expression<Func<TCollaborator, TValue>> function);
+        IAssumptionSubject<TSut, TCollaborator> Assuming(Expression<Action<TCollaborator>> action);
+        IAssumptionSubject<TSut, TCollaborator> AssumingSet(Action<TCollaborator> func);
     }
 }

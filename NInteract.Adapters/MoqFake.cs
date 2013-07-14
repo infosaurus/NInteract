@@ -22,6 +22,21 @@ namespace Ninteract.Adapters
             _moqFake.Setup(function).Returns(result);
         }
 
+        public void SetupThrows<TException>(Expression<Action<T>> action) where TException : Exception, new()
+        {
+            _moqFake.Setup(action).Throws<TException>();
+        }
+
+        public void SetupThrows<TException, TResult>(Expression<Func<T, TResult>> function) where TException : Exception, new()
+        {
+            _moqFake.Setup(function).Throws<TException>();
+        }
+
+        public void SetupThrows<TException>(Action<T> setAction) where TException : Exception, new()
+        {
+            _moqFake.SetupSet(setAction).Throws<TException>();
+        }
+
         public void Verify(Expression<Action<T>> expression)
         {
             try

@@ -17,6 +17,9 @@ namespace Ninteract.Tests.Collaboration
         DateTime? GetMasseurNextAvailability(int duration);
         decimal GiveTotalFee(decimal hourlyRate, bool includesAccommodation, CalculationPolicy calculationPolicy);
         void AddAddressBookEntry(ContactInfo contactInfo);
+        void PayBill(Bill bill);
+        int WithdrawCash(int amount);
+        void BuyPen();
 
         object Pen { get; set; }
         bool IsHungry { get; set; }
@@ -41,8 +44,22 @@ namespace Ninteract.Tests.Collaboration
         public void Hungry()
         {
             var assistantHungryToo = _assistant.IsHungry;
-            _assistant.BuySandwiches(3);
-            _assistant.IsHungry = false;
+            try
+            {
+                _assistant.BuySandwiches(3);
+            }
+            catch (OutOfCashException)
+            {
+                _assistant.WithdrawCash(50);
+            }
+            try
+            {
+                _assistant.IsHungry = false;
+            }
+            catch (StillHungryException)
+            {
+                _assistant.BuySandwiches(1);
+            }
         }
 
         public void Tired()
@@ -57,13 +74,23 @@ namespace Ninteract.Tests.Collaboration
 
         public void SignAutographs(int number)
         {
-            if (_assistant.Pen == null)
+            object pen = null;
+            try
+            {
+                pen = _assistant.Pen;
+            }
+            catch (OutOfInkException)
+            {
+                _assistant.BuyPen();
+            }
+            if (pen == null)
                 _assistant.PrintAutographs(number);
         }
 
         public void Bored()
         {
-            _assistant.GiveNextAppointment();
+            if (_assistant.GiveNextAppointment() == null)
+                _assistant.GetMasseurNextAvailability(2);
         }
 
         public void BackAches()
@@ -93,6 +120,18 @@ namespace Ninteract.Tests.Collaboration
         public void JustMet(string name, int phoneNumber)
         {
             _assistant.AddAddressBookEntry(new ContactInfo(name, phoneNumber));
+        }
+
+        public void PayBill(Bill bill)
+        {
+            try
+            {
+                _assistant.PayBill(bill);
+            }
+            catch (OutOfCashException)
+            {
+                _assistant.WithdrawCash(500);
+            }
         }
 
         public void Generous()
@@ -131,6 +170,10 @@ namespace Ninteract.Tests.Collaboration
         }
     }
 
+    public class Bill
+    {
+    }
+
     public class ContactInfo
     {
         public string Name { get; set; }
@@ -144,6 +187,18 @@ namespace Ninteract.Tests.Collaboration
     }
 
     public class OutOfControlException : Exception
+    {
+    }
+
+    public class OutOfCashException : Exception
+    {
+    }    
+    
+    public class OutOfInkException : Exception
+    {
+    }
+
+    public class StillHungryException : Exception
     {
     }
 }
