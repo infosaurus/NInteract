@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Collaboration\AnyTest.cs" />
     <Compile Include="Collaboration\AssumingTest.cs" />
+    <Compile Include="Collaboration\ChainedAssumingsTest.cs" />
     <Compile Include="Collaboration\ChainedShouldsTest.cs" />
     <Compile Include="Collaboration\GuineaPigs.cs" />
     <Compile Include="Collaboration\RelatedArgumentsTest.cs" />

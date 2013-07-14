@@ -6,27 +6,13 @@ namespace Ninteract
     public interface IAssumptionSubject<TSut, TCollaborator> where TSut : class
                                                              where TCollaborator : class
     {
-        IVerifiable<TCollaborator> Throws<TException>() where TException : Exception, new();
+        IAssertable<TSut, TCollaborator> Throws<TException>() where TException : Exception, new();
     }
 
     public interface IAskAssumptionSubject<TSut, TCollaborator, TValue> : IAssumptionSubject<TSut, TCollaborator> where TSut          : class
                                                                                                                   where TCollaborator : class
     {
-        IVerifiable<TCollaborator> Returns(TValue value);
-
-        Expression<Func<TCollaborator, TValue>> Subject { get; }
-    }
-
-    public interface ITellAssumptionSubject<TSut, TCollaborator> : IAssumptionSubject<TSut, TCollaborator> where TSut          : class
-                                                                                                           where TCollaborator : class
-    {
-        Expression<Action<TCollaborator>> Subject { get; }
-    }
-
-    public interface ISetAssumptionSubject<TSut, TCollaborator> : IAssumptionSubject<TSut, TCollaborator> where TSut : class
-                                                                                                          where TCollaborator : class
-    {
-        Action<TCollaborator> Subject { get; }
+        IAssertable<TSut, TCollaborator> Returns(TValue value);
     }
 
     public abstract class BaseAssumptionSubject<TSut, TCollaborator> : IAssumptionSubject<TSut, TCollaborator> where TSut : class
@@ -39,7 +25,7 @@ namespace Ninteract
             _assertionBuilder = assertionBuilder;
         }
 
-        public abstract IVerifiable<TCollaborator> Throws<TException>() where TException : Exception, new();
+        public abstract IAssertable<TSut, TCollaborator> Throws<TException>() where TException : Exception, new();
     }
 
     public class AskAssumptionSubject<TSut, TCollaborator, TValue> : BaseAssumptionSubject<TSut, TCollaborator>,
@@ -59,22 +45,21 @@ namespace Ninteract
             _function = function;
         }
 
-        public IVerifiable<TCollaborator> Returns(TValue value)
+        public IAssertable<TSut, TCollaborator> Returns(TValue value)
         {
             _assertionBuilder.AssumeReturns(this, value);
             return _assertionBuilder;
         }
 
-        public override IVerifiable<TCollaborator> Throws<TException>()
+        public override IAssertable<TSut, TCollaborator> Throws<TException>()
         {
             _assertionBuilder.AssumeThrows<TException, TValue>(this);
             return _assertionBuilder;
         }
     }
 
-    public class TellAssumptionSubject<TSut, TCollaborator> : BaseAssumptionSubject<TSut, TCollaborator>,
-                                                              ITellAssumptionSubject<TSut, TCollaborator> where TSut : class
-                                                                                                          where TCollaborator : class
+    public class TellAssumptionSubject<TSut, TCollaborator> : BaseAssumptionSubject<TSut, TCollaborator> where TSut : class
+                                                                                                         where TCollaborator : class
     {
         private readonly Expression<Action<TCollaborator>> _action;
         public Expression<Action<TCollaborator>> Subject { get { return _action; } }
@@ -86,15 +71,14 @@ namespace Ninteract
             _action = action;
         }
 
-        public override IVerifiable<TCollaborator> Throws<TException>()
+        public override IAssertable<TSut, TCollaborator> Throws<TException>()
         {
             _assertionBuilder.AssumeThrows<TException>(this);
             return _assertionBuilder;
         }
     }
 
-    public class SetAssumptionSubject<TSut, TCollaborator> : BaseAssumptionSubject<TSut, TCollaborator>,
-                                                             ISetAssumptionSubject<TSut, TCollaborator> where TSut          : class
+    public class SetAssumptionSubject<TSut, TCollaborator> : BaseAssumptionSubject<TSut, TCollaborator> where TSut          : class
                                                                                                         where TCollaborator : class
     {
         private readonly Action<TCollaborator> _action;
@@ -106,7 +90,7 @@ namespace Ninteract
             _action = action;
         }
 
-        public override IVerifiable<TCollaborator> Throws<TException>()
+        public override IAssertable<TSut, TCollaborator> Throws<TException>()
         {
             _assertionBuilder.AssumeThrows<TException>(this);
             return _assertionBuilder;

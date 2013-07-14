@@ -20,6 +20,7 @@ namespace Ninteract.Tests.Collaboration
         void PayBill(Bill bill);
         int WithdrawCash(int amount);
         void BuyPen();
+        void Fired();
 
         object Pen { get; set; }
         bool IsHungry { get; set; }
@@ -90,7 +91,8 @@ namespace Ninteract.Tests.Collaboration
         public void Bored()
         {
             if (_assistant.GiveNextAppointment() == null)
-                _assistant.GetMasseurNextAvailability(2);
+                if (_assistant.GetMasseurNextAvailability(2) == null)
+                    _assistant.PrepareADrink();
         }
 
         public void BackAches()
@@ -130,7 +132,14 @@ namespace Ninteract.Tests.Collaboration
             }
             catch (OutOfCashException)
             {
-                _assistant.WithdrawCash(500);
+                try
+                {
+                    _assistant.WithdrawCash(500);
+                }
+                catch (BankruptException)
+                {
+                    _assistant.Fired();
+                }
             }
         }
 
@@ -192,7 +201,11 @@ namespace Ninteract.Tests.Collaboration
 
     public class OutOfCashException : Exception
     {
-    }    
+    }
+
+    public class BankruptException : Exception
+    {
+    }   
     
     public class OutOfInkException : Exception
     {

@@ -100,24 +100,24 @@ namespace Ninteract
             return new SetAssumptionSubject<TSut, TCollaborator>(this, action);
         }
 
-        public void AssumeReturns<TValue>(IAskAssumptionSubject<TSut, TCollaborator, TValue> askAssumptionSubject, TValue value)
+        public void AssumeReturns<TValue>(AskAssumptionSubject<TSut, TCollaborator, TValue> askAssumptionSubject, TValue value)
         {
             _ninteractEngine.Assume(new ReturnsAssumption<TCollaborator, TValue>(askAssumptionSubject.Subject, value));
         }
 
-        public void AssumeThrows<TException>(ITellAssumptionSubject<TSut, TCollaborator> assumptionSubject) 
+        public void AssumeThrows<TException>(TellAssumptionSubject<TSut, TCollaborator> assumptionSubject) 
             where TException : Exception, new()
         {
             _ninteractEngine.Assume(new ActionThrowsAssumption<TCollaborator, TException>(assumptionSubject.Subject));
         }
 
-        public void AssumeThrows<TException, TValue>(IAskAssumptionSubject<TSut, TCollaborator, TValue> assumptionSubject) 
+        public void AssumeThrows<TException, TValue>(AskAssumptionSubject<TSut, TCollaborator, TValue> assumptionSubject) 
             where TException : Exception, new()
         {
             _ninteractEngine.Assume(new FunctionThrowsAssumption<TCollaborator, TException, TValue>(assumptionSubject.Subject));
         }
 
-        public void AssumeThrows<TException>(ISetAssumptionSubject<TSut, TCollaborator> assumptionSubject)
+        public void AssumeThrows<TException>(SetAssumptionSubject<TSut, TCollaborator> assumptionSubject)
             where TException : Exception, new()
         {
             _ninteractEngine.Assume(new SetActionThrowsAssumption<TCollaborator, TException>(assumptionSubject.Subject));
