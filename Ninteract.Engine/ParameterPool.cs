@@ -1,12 +1,18 @@
-﻿using System;
+﻿// Copyright (c) 2013 Guillaume Lebur. All rights reserved.
+//
+// This software may be modified and distributed under the terms 
+// of the MIT license.  See the LICENSE file for details.
+
+using System;
 using System.Collections.Generic;
+using Ninteract.Engine.Exceptions;
 
 namespace Ninteract.Engine
 {
     public class ParameterPool
     {
-        private readonly IParameterFactory _parameterFactory;
-        private IDictionary<Type, object> _parameters = new Dictionary<Type, object>();
+        private readonly IParameterFactory          _parameterFactory;
+        private readonly IDictionary<Type, object>  _parameters = new Dictionary<Type, object>();
 
         public ParameterPool(IParameterFactory parameterFactory)
         {
@@ -30,7 +36,7 @@ namespace Ninteract.Engine
             object recordedParameter;
             if (!_parameters.TryGetValue(typeof(T), out recordedParameter))
             {
-                throw new InvalidOperationException(string.Format("TheSame<{0}>() can't be used unless a parameter of the same type has previously been generated, e.g. with Some<{0}>().", typeof(T).ToString()));
+                throw new ParameterNotFoundException(typeof(T).Name);
             }
             return (T)recordedParameter;
         }

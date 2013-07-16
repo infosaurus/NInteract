@@ -42,7 +42,7 @@
     <Compile Include="AssertionBuilder.cs" />
     <Compile Include="IAssertable.cs" />
     <Compile Include="IAssumable.cs" />
-    <Compile Include="IAskAssumptionSubject.cs" />
+    <Compile Include="IAssumptionSubject.cs" />
     <Compile Include="ICallable.cs" />
     <Compile Include="CollaborationTest.cs" />
     <Compile Include="IShouldChainer.cs" />

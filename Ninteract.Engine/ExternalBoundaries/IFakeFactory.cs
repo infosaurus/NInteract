@@ -3,13 +3,10 @@
 // This software may be modified and distributed under the terms 
 // of the MIT license.  See the LICENSE file for details.
 
-namespace Ninteract
+namespace Ninteract.Engine
 {
-    public interface IShouldChainer
+    public interface IFakeFactory<T> where T : class
     {
-    }
-
-    public class AndShouldChainer : IShouldChainer
-    {
+        IFake<T> Create();
     }
 }

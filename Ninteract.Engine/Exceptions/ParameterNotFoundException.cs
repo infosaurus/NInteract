@@ -3,13 +3,14 @@
 // This software may be modified and distributed under the terms 
 // of the MIT license.  See the LICENSE file for details.
 
-namespace Ninteract
-{
-    public interface IShouldChainer
-    {
-    }
+using System;
 
-    public class AndShouldChainer : IShouldChainer
+namespace Ninteract.Engine.Exceptions
+{
+    public class ParameterNotFoundException : Exception
     {
+        public ParameterNotFoundException(string name) : base(name)
+        {
+        }
     }
 }

@@ -1,4 +1,9 @@
-﻿using System;
+﻿// Copyright (c) 2013 Guillaume Lebur. All rights reserved.
+//
+// This software may be modified and distributed under the terms 
+// of the MIT license.  See the LICENSE file for details.
+
+using System;
 using Ninteract.Engine;
 using Ploeh.AutoFixture;
 
@@ -7,7 +12,7 @@ namespace Ninteract.Adapters
     public class AutoFixtureDependencyContainer<TSut, TCollaborator> : IDependencyContainer<TSut, TCollaborator> where TSut          : class
                                                                                                                  where TCollaborator : class
     {
-        private Fixture _fixture;
+        private readonly Fixture _fixture;
 
         public AutoFixtureDependencyContainer()
         {

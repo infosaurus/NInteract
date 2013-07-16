@@ -1,7 +1,13 @@
-﻿using System;
+﻿// Copyright (c) 2013 Guillaume Lebur. All rights reserved.
+//
+// This software may be modified and distributed under the terms 
+// of the MIT license.  See the LICENSE file for details.
+
+using System;
 using System.Linq.Expressions;
 using Ninteract.Adapters;
 using Ninteract.Engine;
+using Ninteract.Engine.Exceptions;
 
 namespace Ninteract
 {
@@ -10,9 +16,9 @@ namespace Ninteract
                                                          where TSut          : class
                                                          where TCollaborator : class
     {
-        private NinteractEngine<TSut, TCollaborator> _ninteractEngine;
-        private ParameterPool _stimulusParameterPool;
-        private IExpectedParameterFactory _expectedParameterFactory;
+        private readonly NinteractEngine<TSut, TCollaborator> _ninteractEngine;
+        private readonly ParameterPool                        _stimulusParameterPool;
+        private readonly IExpectedParameterFactory            _expectedParameterFactory;
 
         public AssertionBuilder()
         {
@@ -135,7 +141,16 @@ namespace Ninteract
 
         public T TheSame<T>()
         {
-            return _stimulusParameterPool.Find<T>();
+            try
+            {
+                return _stimulusParameterPool.Find<T>();
+            }
+            catch (ParameterNotFoundException)
+            {
+                throw new InvalidOperationException(
+                    string.Format("TheSame<{0}>() can't be used unless a parameter of the same type has previously been generated, e.g. with Some<{0}>().", 
+                                   typeof(T).ToString()));
+            }
         }
 
         public T Any<T>()
