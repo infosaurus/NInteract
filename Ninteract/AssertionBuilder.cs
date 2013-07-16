@@ -136,10 +136,19 @@ namespace Ninteract
 
         public T Some<T>()
         {
-            return _stimulusParameterPool.Produce<T>();
+            return FindOrProduce<T>();
         }
 
         public T TheSame<T>()
+        {
+            // Some and TheSame are only syntactically different and sequential,
+            // in reality they can happen in any order at runtime
+            // (eg, Assumptions containing TheSame are evaluated before Calls containing Some)
+
+            return Some<T>(); 
+        }
+
+        private T FindOrProduce<T>()
         {
             try
             {
@@ -147,9 +156,10 @@ namespace Ninteract
             }
             catch (ParameterNotFoundException)
             {
-                throw new InvalidOperationException(
-                    string.Format("TheSame<{0}>() can't be used unless a parameter of the same type has previously been generated, e.g. with Some<{0}>().", 
-                                   typeof(T).ToString()));
+                //throw new InvalidOperationException(
+                //    string.Format("TheSame<{0}>() can't be used unless a parameter of the same type has previously been generated, e.g. with Some<{0}>().", 
+                //                   typeof(T).ToString()));
+                return _stimulusParameterPool.Produce<T>();
             }
         }
 

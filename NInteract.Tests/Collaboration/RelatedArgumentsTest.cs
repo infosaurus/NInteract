@@ -51,5 +51,13 @@ namespace Ninteract.Tests.Collaboration
             A.CallTo(star => star.JustMet(Some<string>(), Some<int>()))
              .ShouldTell(assistant => assistant.AddAddressBookEntry(Some<ContactInfo>(c => c.Name == string.Empty)));
         }
+
+        [Test]
+        public void Assuming_MultipleRelatedArguments_Positive()
+        {
+            A.CallTo(star => star.FriendWantsCoffee(Some<Coffee>(), Some<int>(), Some<bool>()))
+             .Assuming(assistant => assistant.MakeCoffee(TheSame<Coffee>(), TheSame<int>(), TheSame<bool>())).Throws<OutOfSugarException>()
+             .ShouldTell(assistant => assistant.BuySomeSugar());
+        }
     }
 }

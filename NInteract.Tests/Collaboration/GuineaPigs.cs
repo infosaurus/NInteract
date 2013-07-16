@@ -21,6 +21,7 @@ namespace Ninteract.Tests.Collaboration
         int WithdrawCash(int amount);
         void BuyPen();
         void Fired();
+        void BuySomeSugar();
 
         object Pen { get; set; }
         bool IsHungry { get; set; }
@@ -116,7 +117,14 @@ namespace Ninteract.Tests.Collaboration
 
         public void FriendWantsCoffee(Coffee coffee, int nbSugars, bool addMilk)
         {
-            _assistant.MakeCoffee(coffee, nbSugars, addMilk);
+            try
+            {
+                _assistant.MakeCoffee(coffee, nbSugars, addMilk);
+            }
+            catch (OutOfSugarException)
+            {
+                _assistant.BuySomeSugar();
+            }
         }
 
         public void JustMet(string name, int phoneNumber)
@@ -212,6 +220,10 @@ namespace Ninteract.Tests.Collaboration
     }
 
     public class StillHungryException : Exception
+    {
+    }
+
+    public class OutOfSugarException : Exception
     {
     }
 }
