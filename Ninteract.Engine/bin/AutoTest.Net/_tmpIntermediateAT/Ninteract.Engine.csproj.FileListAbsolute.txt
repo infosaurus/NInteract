@@ -1,5 +1,0 @@
-C:\Users\ianmc_000\Documents\Dev\Projects\Ninteract\Ninteract.Engine\bin\AutoTest.Net\_tmpIntermediateAT\Ninteract.Engine.dll
-C:\Users\ianmc_000\Documents\Dev\Projects\Ninteract\Ninteract.Engine\bin\AutoTest.Net\_tmpIntermediateAT\Ninteract.Engine.pdb
-C:\Users\ianmc_000\Documents\Dev\Projects\Ninteract\Ninteract.Engine\bin\AutoTest.Net\Ninteract.Engine.dll
-C:\Users\ianmc_000\Documents\Dev\Projects\Ninteract\Ninteract.Engine\bin\AutoTest.Net\Ninteract.Engine.pdb
-C:\Users\ianmc_000\Documents\Dev\Projects\Ninteract\Ninteract.Engine\bin\AutoTest.Net\_tmpIntermediateAT\Ninteract.Engine.csprojResolveAssemblyReference.cache
