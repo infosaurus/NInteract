@@ -156,9 +156,6 @@ namespace Ninteract
             }
             catch (ParameterNotFoundException)
             {
-                //throw new InvalidOperationException(
-                //    string.Format("TheSame<{0}>() can't be used unless a parameter of the same type has previously been generated, e.g. with Some<{0}>().", 
-                //                   typeof(T).ToString()));
                 return _stimulusParameterPool.Produce<T>();
             }
         }

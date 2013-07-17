@@ -59,5 +59,14 @@ namespace Ninteract.Tests.Collaboration
              .Assuming(assistant => assistant.MakeCoffee(TheSame<Coffee>(), TheSame<int>(), TheSame<bool>())).Throws<OutOfSugarException>()
              .ShouldTell(assistant => assistant.BuySomeSugar());
         }
+
+        [Test]
+        [ExpectedException(typeof(DidntTellException))]
+        public void Assuming_MultipleRelatedArguments_Negative()
+        {
+            A.CallTo(star => star.FriendWantsCoffee(Some<Coffee>(), Some<int>(), Some<bool>()))
+             .Assuming(assistant => assistant.MakeCoffee(TheSame<Coffee>(), TheSame<int>(), TheSame<bool>())).Throws<OutOfSugarException>()
+             .ShouldTell(assistant => assistant.PrintAutographs(TheSame<int>()));
+        }
     }
 }
