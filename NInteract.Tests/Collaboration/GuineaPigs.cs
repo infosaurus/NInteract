@@ -226,4 +226,113 @@ namespace Ninteract.Tests.Collaboration
     public class OutOfSugarException : Exception
     {
     }
+
+    public class Assistant : IAssistant
+    {
+        private readonly INoteBook _noteBook;
+
+        public Assistant(INoteBook noteBook)
+        {
+            _noteBook = noteBook;
+        }
+
+        public void PrepareADrink()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void ServeDrink()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void CallACab()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void BuySandwiches(int number)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object GetVegasPlaneSchedule(object timeFrame)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void BookPlaneToVegas()
+        {
+            throw new NotImplementedException();
+        }
+
+        public object GiveNextAppointment()
+        {
+            return _noteBook.NextAppointment();
+        }
+
+        public void MakeCoffee(Coffee coffee, int nbSugars, bool withMilk)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void PrintAutographs(int number)
+        {
+            throw new NotImplementedException();
+        }
+
+        public object GiveCreditCard()
+        {
+            throw new NotImplementedException();
+        }
+
+        public DateTime? GetMasseurNextAvailability(int duration)
+        {
+            throw new NotImplementedException();
+        }
+
+        public decimal GiveTotalFee(decimal hourlyRate, bool includesAccommodation, CalculationPolicy calculationPolicy)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void AddAddressBookEntry(ContactInfo contactInfo)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void PayBill(Bill bill)
+        {
+            throw new NotImplementedException();
+        }
+
+        public int WithdrawCash(int amount)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void BuyPen()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Fired()
+        {
+            throw new NotImplementedException();
+        }
+
+        public void BuySomeSugar()
+        {
+            throw new NotImplementedException();
+        }
+
+        public object Pen { get; set; }
+        public bool IsHungry { get; set; }
+        public decimal Salary { get; set; }
+    }
+
+    public interface INoteBook
+    {
+        object NextAppointment();
+    }
 }

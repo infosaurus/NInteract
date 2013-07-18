@@ -1,6 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using Ninteract.Engine.Exceptions;
+using Ninteract.Tests.Contract;
 
 namespace Ninteract.Tests.Collaboration
 {
@@ -27,7 +28,7 @@ namespace Ninteract.Tests.Collaboration
         public void AssumingReturns_Method_Positive()
         {
             A.CallTo(star => star.Bored())
-             .Assuming(assistant => assistant.GiveNextAppointment()).Returns(null)
+             .Assuming(assistant => assistant.GiveNextAppointment()).Returns(IAssistantContract.NoAppointment())
              .ShouldTell(assistant => assistant.GetMasseurNextAvailability(Any<int>()));
         }
 

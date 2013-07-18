@@ -1,0 +1,22 @@
+// usage
+public class FooTest : CollaborationTest<Foo, IBar>
+{
+
+  [Test]
+  public void TestSamples()
+  {
+
+    A.CallTo(foo => foo.DoX())
+     .ShouldAsk(itsBar => itsBar.Y());
+
+
+    A.CallTo(foo => foo.DoX(Some<int>))
+     .ShouldTell(itsBar => itsBar.DoY(TheSame<int>));
+
+
+    A.CallTo(foo => foo.DoX())
+     .Assuming(itsBar => itsBar.Y()).Returns(null)
+     .ShouldThrow<ZException>();
+
+  }
+}
