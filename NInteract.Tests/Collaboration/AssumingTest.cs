@@ -5,6 +5,7 @@ using Ninteract.Tests.Contract;
 
 namespace Ninteract.Tests.Collaboration
 {
+    [TestFixture]
     public class AssumingTest : CollaborationTest<Star, IAssistant>
     {
         [Test]

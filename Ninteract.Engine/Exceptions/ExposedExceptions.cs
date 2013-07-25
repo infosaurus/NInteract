@@ -44,4 +44,12 @@ namespace Ninteract.Engine.Exceptions
         {
         }
     }
+
+    public class DidntReturnException : Exception
+    {
+        public DidntReturnException(string message)
+            : base(message, null)
+        {
+        }
+    }
 }

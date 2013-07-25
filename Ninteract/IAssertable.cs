@@ -10,5 +10,6 @@ namespace Ninteract
                                                         where TSut          : class
                                                         where TCollaborator : class
     {
+        void ShouldReturn<TResult>(TResult value);
     }
 }

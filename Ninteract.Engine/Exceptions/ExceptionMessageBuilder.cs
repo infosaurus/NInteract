@@ -4,8 +4,6 @@
 // of the MIT license.  See the LICENSE file for details.
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Linq.Expressions;
 
 namespace Ninteract.Engine.Exceptions
@@ -16,7 +14,7 @@ namespace Ninteract.Engine.Exceptions
             where TSut          : class
             where TCollaborator : class
         {
-            var formattedMethodCall = GetFormattedMethodCall(tellAction);
+            var formattedMethodCall = MethodFormatter.GetShortFormattedMethodCall(tellAction);
             var message = string.Format("The {0} under test didn't tell its {1} collaborator : {2}.",
                                         typeof(TSut).Name,
                                         typeof(TCollaborator).Name,
@@ -28,7 +26,7 @@ namespace Ninteract.Engine.Exceptions
             where TSut          : class
             where TCollaborator : class
         {
-            var formattedMethodCall = GetFormattedMethodCall(askFunction);
+            var formattedMethodCall = MethodFormatter.GetShortFormattedMethodCall(askFunction);
             var message = string.Format("The {0} under test didn't ask its {1} collaborator : {2}.",
                                         typeof(TSut).Name,
                                         typeof(TCollaborator).Name,
@@ -40,7 +38,7 @@ namespace Ninteract.Engine.Exceptions
             where TSut          : class
             where TCollaborator : class
         {
-            var formattedMethodCall = GetFormattedPropertyCall(getFunction);
+            var formattedMethodCall = MethodFormatter.GetFormattedPropertyCall(getFunction);
             var message = string.Format("The {0} under test didn't get its {1} collaborator's {2}.",
                                         typeof(TSut).Name,
                                         typeof(TCollaborator).Name,
@@ -65,73 +63,9 @@ namespace Ninteract.Engine.Exceptions
                                  exceptionType.Name);
         }
 
-        private static string GetFormattedMethodCall<TCollaborator>(Expression<Action<TCollaborator>> tellAction)
-            where TCollaborator : class
+        public static string CreateDidntReturnMessage<TSut>(object result)
         {
-            var tellMethodCall = ((MethodCallExpression)tellAction.Body);
-            return GetFormattedMethodCall(tellMethodCall);
-        }
-
-        private static string GetFormattedMethodCall<TCollaborator, TResult>(Expression<Func<TCollaborator, TResult>> askFunction)
-            where TCollaborator : class
-        {
-            var askMethodCall = ((MethodCallExpression)askFunction.Body);
-            return GetFormattedMethodCall(askMethodCall);
-        }
-
-        private static string GetFormattedPropertyCall<TCollaborator, TResult>(Expression<Func<TCollaborator, TResult>> propertyCall)
-            where TCollaborator : class
-        {
-            var propertyAccess = ((MemberExpression)propertyCall.Body);
-            return propertyAccess.Member.Name;
-        }
-
-        private static string GetFormattedMethodCall(MethodCallExpression methodCall)
-        {
-            var parameters = GetFormattedParameters(methodCall);
-            var formattedMethodName = GetFormattedMethodName(methodCall);
-            return string.Format("{0}({1})",
-                                formattedMethodName,
-                                string.Join(",", parameters));
-        }
-
-        private static string GetFormattedMethodName(MethodCallExpression methodCall)
-        {
-            string formattedMethodName;
-            if (methodCall.Method.IsGenericMethod)
-            {
-                formattedMethodName = string.Format("{0}<{1}>",
-                                                    methodCall.Method.Name,
-                                                    string.Join(",", methodCall.Method.GetGenericArguments()
-                                                                                      .Select(type => type.Name)));
-            }
-            else
-            {
-                formattedMethodName = methodCall.Method.Name;
-            }
-            return formattedMethodName;
-        }
-
-        private static IEnumerable<string> GetFormattedParameters(MethodCallExpression methodCall)
-        {
-            var parameters = new List<string>();
-            foreach (Expression argument in methodCall.Arguments)
-            {
-                if (argument == null)
-                {
-                    parameters.Add("null");
-                }
-                else if (argument.NodeType == ExpressionType.Call)
-                {
-                    LambdaExpression lambda = Expression.Lambda(argument);
-                    parameters.Add(GetFormattedMethodCall((MethodCallExpression) lambda.Body));
-                }
-                else
-                {
-                    parameters.Add(argument.ToString());
-                }
-            }
-            return parameters;
+            return string.Format("The {0} under test didn't return {1}", typeof (TSut).Name, result);
         }
     }
 }

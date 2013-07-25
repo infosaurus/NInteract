@@ -12,5 +12,6 @@ namespace Ninteract
                                                     where TCollaborator : class
     {
         IAssertable<TSut, TCollaborator> CallTo(Expression<Action<TSut>> expression);
+        IAssertable<TSut, TCollaborator> CallTo<TResult>(Expression<Func<TSut, TResult>> expression);
     }
 }

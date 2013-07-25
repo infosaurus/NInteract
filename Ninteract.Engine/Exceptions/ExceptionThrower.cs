@@ -51,5 +51,11 @@ namespace Ninteract.Engine.Exceptions
             var message = ExceptionMessageBuilder.CreateDidntThrowMessage<TSut>(exceptionType);
             throw new DidntThrowException(message);
         }
+
+        public static void ThrowDidntReturn<TSut, TResult>(TResult result)
+        {
+            var message = ExceptionMessageBuilder.CreateDidntReturnMessage<TSut>(result);
+            throw new DidntReturnException(message);
+        }
     }
 }

@@ -34,6 +34,12 @@ namespace Ninteract
             return this;
         }
 
+        public IAssertable<TSut, TCollaborator> CallTo<TResult>(Expression<Func<TSut, TResult>> sutCall)
+        {
+            _ninteractEngine.Stimulus = new Stimulus<TSut, TResult>(sutCall);
+            return this;
+        }
+
         public void ShouldTell(Expression<Action<TCollaborator>> action)
         {
             _ninteractEngine.Expect(new TellExpectation<TSut, TCollaborator>(action));
@@ -82,6 +88,12 @@ namespace Ninteract
         {
             _ninteractEngine.Expect(new SetExpectation<TSut, TCollaborator>(setAction));
             return this;
+        }
+
+        public void ShouldReturn<TResult>(TResult value)
+        {
+            _ninteractEngine.AddEncompassingExpectation(new ReturnsExpectation<TResult>(value));
+            _ninteractEngine.Run();
         }
 
         public void ShouldThrow<TException>()

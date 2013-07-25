@@ -14,10 +14,11 @@ namespace Ninteract.Engine
     {
         private readonly TSut _sut;
         private readonly IList<IFake<TCollaborator>>                    _fakeCollaborators          = new List<IFake<TCollaborator>>();
-        private readonly IList<ICollaboratorExpectation<TCollaborator>> _expectations               = new List<ICollaboratorExpectation<TCollaborator>>();
+        private readonly IList<ICollaboratorExpectation<TCollaborator>> _collaboratorExpectations   = new List<ICollaboratorExpectation<TCollaborator>>();
         private readonly IFakeFactory<TCollaborator>                    _fakeCollaboratorFactory;
         private readonly IDependencyContainer<TSut, TCollaborator>      _dependencyContainer;
         private IEncompassingExpectation                                _headEncompassingExpectation;
+        
 
         public Stimulus<TSut> Stimulus { get; set; }
 
@@ -42,9 +43,9 @@ namespace Ninteract.Engine
                 _headEncompassingExpectation.TriggerAndVerify(Stimulus, _sut);
             else
                 TriggerStimulus();
-            var mock = GetFakeCollaboratorOrThrow();
 
-            _expectations.ToList().ForEach(e => e.VerifyAgainst(mock));
+            var mock = GetFakeCollaboratorOrThrow();
+            _collaboratorExpectations.ToList().ForEach(e => e.VerifyAgainst(mock));
         }
 
         private void TriggerStimulus()
@@ -84,7 +85,7 @@ namespace Ninteract.Engine
 
         public void Expect(ICollaboratorExpectation<TCollaborator> expectation)
         {
-            _expectations.Add(expectation);
+            _collaboratorExpectations.Add(expectation);
         }
 
         public void AddEncompassingExpectation(IEncompassingExpectation expectation)

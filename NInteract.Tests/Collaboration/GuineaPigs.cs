@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace Ninteract.Tests.Collaboration
 {
@@ -12,7 +13,7 @@ namespace Ninteract.Tests.Collaboration
         void BookPlaneToVegas();
         object GiveNextAppointment();
         void MakeCoffee(Coffee coffee, int nbSugars, bool withMilk);
-        void PrintAutographs(int number);
+        IList<Autograph> PrintAutographs(int number);
         object GiveCreditCard();
         DateTime? GetMasseurNextAvailability(int duration);
         decimal GiveTotalFee(decimal hourlyRate, bool includesAccommodation, CalculationPolicy calculationPolicy);
@@ -74,9 +75,10 @@ namespace Ninteract.Tests.Collaboration
             _assistant.MakeCoffee(Expresso.Instance, 2, false);
         }
 
-        public void SignAutographs(int number)
+        public IList<Autograph> SignAutographs(int number)
         {
             object pen = null;
+            IList<Autograph> autographs = new List<Autograph>();
             try
             {
                 pen = _assistant.Pen;
@@ -86,7 +88,15 @@ namespace Ninteract.Tests.Collaboration
                 _assistant.BuyPen();
             }
             if (pen == null)
-                _assistant.PrintAutographs(number);
+                autographs = _assistant.PrintAutographs(number);
+            else
+            {
+                for (int i = 0; i < number; i++)
+                {
+                    autographs.Add(new Autograph());
+                }
+            }
+            return autographs;
         }
 
         public void Bored()
@@ -110,9 +120,9 @@ namespace Ninteract.Tests.Collaboration
             _assistant.BookPlaneToVegas();
         }
 
-        public void SignContract()
+        public decimal SignContract()
         {
-            _assistant.GiveTotalFee(1000, false, VatInclusiveCalculationPolicy.Instance);
+            return _assistant.GiveTotalFee(1000, false, VatInclusiveCalculationPolicy.Instance);
         }
 
         public void FriendWantsCoffee(Coffee coffee, int nbSugars, bool addMilk)
@@ -157,6 +167,8 @@ namespace Ninteract.Tests.Collaboration
         }
     }
 
+
+
     public abstract class Coffee { }
 
     public class Expresso : Coffee
@@ -171,9 +183,7 @@ namespace Ninteract.Tests.Collaboration
         }
     }
 
-    public abstract class CalculationPolicy
-    {
-    }
+    public abstract class CalculationPolicy { }
 
     public class VatInclusiveCalculationPolicy : CalculationPolicy
     {
@@ -187,9 +197,9 @@ namespace Ninteract.Tests.Collaboration
         }
     }
 
-    public class Bill
-    {
-    }
+    public class Bill { }
+
+    public class Autograph { }
 
     public class ContactInfo
     {
@@ -276,7 +286,7 @@ namespace Ninteract.Tests.Collaboration
             throw new NotImplementedException();
         }
 
-        public void PrintAutographs(int number)
+        public IList<Autograph> PrintAutographs(int number)
         {
             throw new NotImplementedException();
         }

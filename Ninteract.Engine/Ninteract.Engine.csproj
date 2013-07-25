@@ -39,9 +39,11 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Exceptions\InvalidAssertionTargetException.cs" />
     <Compile Include="Exceptions\ExceptionMessageBuilder.cs" />
     <Compile Include="Exceptions\ExceptionThrower.cs" />
     <Compile Include="Exceptions\ExposedExceptions.cs" />
+    <Compile Include="MethodFormatter.cs" />
     <Compile Include="Exceptions\VerifyException.cs" />
     <Compile Include="ExternalBoundaries\IExpectedParameterFactory.cs" />
     <Compile Include="ExternalBoundaries\IDependencyContainer.cs" />

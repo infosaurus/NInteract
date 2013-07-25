@@ -50,6 +50,7 @@
     <Compile Include="Collaboration\RelatedArgumentsTest.cs" />
     <Compile Include="Collaboration\ShouldAskTest.cs" />
     <Compile Include="Collaboration\ShouldGetTest.cs" />
+    <Compile Include="Collaboration\ShouldReturnTest.cs" />
     <Compile Include="Collaboration\ShouldSetTest.cs" />
     <Compile Include="Collaboration\ShouldTellTest.cs" />
     <Compile Include="Collaboration\ShouldThrowTest.cs" />

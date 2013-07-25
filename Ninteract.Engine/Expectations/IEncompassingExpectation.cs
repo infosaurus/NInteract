@@ -15,7 +15,7 @@ namespace Ninteract.Engine
     {
         void Enqueue(IEncompassingExpectation next);
 
-        void TriggerAndVerify<TSut>(Stimulus<TSut> stimulus, TSut sut)
+        object TriggerAndVerify<TSut>(Stimulus<TSut> stimulus, TSut sut)
             where TSut : class;
     }
 
@@ -28,27 +28,28 @@ namespace Ninteract.Engine
             _next = next;
         }
 
-        protected void TriggerStimulus<TSut>(Stimulus<TSut> stimulus, TSut sut)
+        protected object TriggerStimulus<TSut>(Stimulus<TSut> stimulus, TSut sut)
             where TSut : class
         {
             if (_next == null)
-                stimulus.ApplyTo(sut);
+                return stimulus.ApplyTo(sut);
             else
-                _next.TriggerAndVerify(stimulus, sut);
+                return _next.TriggerAndVerify(stimulus, sut);
         }
 
-        public abstract void TriggerAndVerify<TSut>(Stimulus<TSut> stimulus, TSut sut)
+        public abstract object TriggerAndVerify<TSut>(Stimulus<TSut> stimulus, TSut sut)
             where TSut : class;
     }
 
     public class ThrowExpectation<TException> : EncompassingExpectation where TException : Exception
     {
-        public override void TriggerAndVerify<TSut>(Stimulus<TSut> stimulus, TSut sut)
+        public override object TriggerAndVerify<TSut>(Stimulus<TSut> stimulus, TSut sut)
         {
             var expectedExceptionWasThrown = false;
+            object result = null;
             try
             {
-                TriggerStimulus(stimulus, sut);
+                result = TriggerStimulus(stimulus, sut);
             }
             catch (Exception exception)
             {
@@ -61,6 +62,50 @@ namespace Ninteract.Engine
 
             if (!expectedExceptionWasThrown)
                 ExceptionThrower.ThrowDidntThrow<TSut>(typeof(TException));
+
+            return result;
+        }
+    }
+
+    public class ReturnsExpectation<TResult> : EncompassingExpectation
+    {
+        private readonly TResult _expectedReturnValue;
+
+        public ReturnsExpectation(TResult expectedReturnValue)
+        {
+            _expectedReturnValue = expectedReturnValue;
+        }
+
+        public override object TriggerAndVerify<TSut>(Stimulus<TSut> stimulus, TSut sut)
+        {
+            var value = TriggerStimulus(stimulus, sut);
+            if (value == null)
+            {
+                if (_expectedReturnValue != null)
+                    ExceptionThrower.ThrowDidntReturn<TSut, TResult>(_expectedReturnValue);
+            }
+            else
+            {
+
+                TResult result;
+                try
+                {
+                    result = (TResult) value;
+                }
+                catch (Exception)
+                {
+                    throw new InvalidAssertionTargetException(
+                        string.Format("Expected value type {0} doesn't match actual method return type : {1}.",
+                                      typeof (TResult).Name,
+                                      stimulus.ToString()));
+                }
+
+                if (!result.Equals(_expectedReturnValue))
+                {
+                    ExceptionThrower.ThrowDidntReturn<TSut, TResult>(_expectedReturnValue);
+                }
+            }
+            return value;
         }
     }
 }
