@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Linq;
 using NUnit.Framework;
 using Ninteract.Engine.Exceptions;
 
@@ -50,6 +51,46 @@ namespace Ninteract.Tests.Collaboration
         {
             A.CallTo(star => star.SignContract())
              .ShouldReturn(new Bill());
+        }
+
+        [Test]
+        public void ShouldReturnSome_ReferenceType_Positive()
+        {
+            var autograph = new Autograph();
+            A.CallTo(star => star.SignAutographs(1))
+             .Assuming(assistant => assistant.PrintAutographs(Any<int>()))
+                                                                          .Returns(new List<Autograph> { autograph })
+             .ShouldReturnSome<IList<Autograph>>(list => list.Count == 1 && list.First() == autograph);
+        }
+
+        [Test]
+        [ExpectedException(typeof(DidntReturnException))]
+        public void ShouldReturnSome_ReferenceType_Negative()
+        {
+            var autograph = new Autograph();
+            A.CallTo(star => star.SignAutographs(1))
+             .Assuming(assistant => assistant.PrintAutographs(Any<int>()))
+                                                                          .Returns(new List<Autograph> { autograph })
+             .ShouldReturnSome<IList<Autograph>>(list => list.Count == 2 && list.First() == autograph);
+        }
+
+        [Test]
+        public void ShouldReturnSome_ValueType_Positive()
+        {
+            A.CallTo(star => star.SignContract())
+             .Assuming(assistant => assistant.GiveTotalFee(Any<decimal>(), Any<bool>(), Any<CalculationPolicy>()))
+                                                                                                                  .Returns(5m)
+             .ShouldReturnSome<decimal>(fee => fee == 5m);
+        }
+
+        [Test]
+        [ExpectedException(typeof(DidntReturnException))]
+        public void ShouldReturnSome_ValueType_Negative()
+        {
+            A.CallTo(star => star.SignContract())
+             .Assuming(assistant => assistant.GiveTotalFee(Any<decimal>(), Any<bool>(), Any<CalculationPolicy>()))
+                                                                                                                  .Returns(5m)
+             .ShouldReturnSome<decimal>(fee => fee > 5m && fee < 6m);
         }
     }
 }

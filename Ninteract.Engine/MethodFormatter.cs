@@ -26,6 +26,11 @@ namespace Ninteract.Engine
             return GetShortFormattedMethodCall(askMethodCall);
         }
 
+        public static string GetShortFormattedMethodCall<T>(Expression<Predicate<T>> predicate)
+        {
+            return predicate.Body.ToString();
+        }
+
         public static string GetFormattedMethodCallWithReturnType<T, TResult>(Expression<Func<T, TResult>> askFunction)
             where T : class
         {
@@ -46,7 +51,7 @@ namespace Ninteract.Engine
             var formattedMethodName = GetFormattedMethodName(methodCall);
             return string.Format("{0}({1})",
                                  formattedMethodName,
-                                 String.Join((string) ",", (IEnumerable<string>) parameters));
+                                 String.Join(",", parameters));
         }
 
         private static string GetFormattedMethodCallWithReturnType(MethodCallExpression methodCall)

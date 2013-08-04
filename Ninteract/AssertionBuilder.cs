@@ -7,7 +7,6 @@ using System;
 using System.Linq.Expressions;
 using Ninteract.Adapters;
 using Ninteract.Engine;
-using Ninteract.Engine.Exceptions;
 
 namespace Ninteract
 {
@@ -17,15 +16,11 @@ namespace Ninteract
                                                          where TCollaborator : class
     {
         private readonly NinteractEngine<TSut, TCollaborator> _ninteractEngine;
-        private readonly ParameterPool                        _stimulusParameterPool;
-        private readonly IExpectedParameterFactory            _expectedParameterFactory;
 
         public AssertionBuilder()
         {
             _ninteractEngine = new NinteractEngine<TSut, TCollaborator>(new AutoFixtureDependencyContainer<TSut, TCollaborator>(),
                                                                         new MoqFactory<TCollaborator>());
-            _stimulusParameterPool = new ParameterPool(new AutoFixtureParameterFactory());
-            _expectedParameterFactory = new MoqExpectedParameterFactory();
         }
         
         public IAssertable<TSut, TCollaborator> CallTo(Expression<Action<TSut>> sutCall)
@@ -92,7 +87,13 @@ namespace Ninteract
 
         public void ShouldReturn<TResult>(TResult value)
         {
-            _ninteractEngine.AddEncompassingExpectation(new ReturnsExpectation<TResult>(value));
+            _ninteractEngine.AddEncompassingExpectation(new ReturnsValueExpectation<TResult>(value));
+            _ninteractEngine.Run();
+        }
+
+        public void ShouldReturnSome<TResult>(Expression<Predicate<TResult>> expectation)
+        {
+            _ninteractEngine.AddEncompassingExpectation(new ReturnsPredicateExpectation<TResult>(expectation));
             _ninteractEngine.Run();
         }
 
@@ -144,42 +145,6 @@ namespace Ninteract
         public IVerifiable<TCollaborator> And()
         {
             return this;
-        }
-
-        public T Some<T>()
-        {
-            return FindOrProduce<T>();
-        }
-
-        public T TheSame<T>()
-        {
-            // Some and TheSame are only syntactically different and sequential,
-            // in reality they can happen in any order at runtime
-            // (eg, Assumptions containing TheSame are evaluated before Calls containing Some)
-
-            return Some<T>(); 
-        }
-
-        private T FindOrProduce<T>()
-        {
-            try
-            {
-                return _stimulusParameterPool.Find<T>();
-            }
-            catch (ParameterNotFoundException)
-            {
-                return _stimulusParameterPool.Produce<T>();
-            }
-        }
-
-        public T Any<T>()
-        {
-            return _expectedParameterFactory.Create<T>();
-        }
-
-        public T Some<T>(Expression<Predicate<T>> expectation)
-        {
-            return _expectedParameterFactory.Create<T>(expectation);
         }
     }
 }

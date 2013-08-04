@@ -63,9 +63,18 @@ namespace Ninteract.Engine.Exceptions
                                  exceptionType.Name);
         }
 
-        public static string CreateDidntReturnMessage<TSut>(object result)
+        public static string CreateDidntReturnValueMessage<TSut>(object result)
         {
             return string.Format("The {0} under test didn't return {1}", typeof (TSut).Name, result);
+        }
+
+        public static string CreateDidntReturnPredicateMessage<TSut, TResult>(Expression<Predicate<TResult>> returnValueExpectation)
+        {
+            var formattedPredicate = MethodFormatter.GetShortFormattedMethodCall(returnValueExpectation);
+            return string.Format("The {0} under test didn't return a {1} matching expectation : {2}",
+                                 typeof(TSut).Name, 
+                                 typeof(TResult).Name,
+                                 formattedPredicate);
         }
     }
 }

@@ -54,7 +54,13 @@ namespace Ninteract.Engine.Exceptions
 
         public static void ThrowDidntReturn<TSut, TResult>(TResult result)
         {
-            var message = ExceptionMessageBuilder.CreateDidntReturnMessage<TSut>(result);
+            var message = ExceptionMessageBuilder.CreateDidntReturnValueMessage<TSut>(result);
+            throw new DidntReturnException(message);
+        }
+
+        public static void ThrowDidntReturn<TSut, TResult>(Expression<Predicate<TResult>> returnValueExpectation)
+        {
+            var message = ExceptionMessageBuilder.CreateDidntReturnPredicateMessage<TSut, TResult>(returnValueExpectation);
             throw new DidntReturnException(message);
         }
     }

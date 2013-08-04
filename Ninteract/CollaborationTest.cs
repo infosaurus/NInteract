@@ -3,8 +3,11 @@
 // This software may be modified and distributed under the terms 
 // of the MIT license.  See the LICENSE file for details.
 
+
 using System;
 using System.Linq.Expressions;
+using Ninteract.Adapters;
+using Ninteract.Engine;
 
 namespace Ninteract
 {
@@ -17,12 +20,14 @@ namespace Ninteract
                                                         where TCollaborator : class
     {
         private AssertionBuilder<TSut, TCollaborator> _assertionBuilder;
+        private IParameterEngine                      _parameterEngine;
 
         public ICallable<TSut, TCollaborator> A 
         { 
             get
             {
                 _assertionBuilder = new AssertionBuilder<TSut, TCollaborator>();
+                _parameterEngine  = new AutoMoqParameterEngine();
                 return _assertionBuilder;
             } 
         }
@@ -31,22 +36,22 @@ namespace Ninteract
 
         public T Some<T>()
         {
-            return _assertionBuilder.Some<T>();
-        }
-
-        public T Any<T>()
-        {
-            return _assertionBuilder.Any<T>();
+            return _parameterEngine.Some<T>();
         }
 
         public T Some<T>(Expression<Predicate<T>> predicate)
         {
-            return _assertionBuilder.Some<T>(predicate);
+            return _parameterEngine.Some<T>(predicate);
         }
 
         public T TheSame<T>()
         {
-            return _assertionBuilder.TheSame<T>();
+            return _parameterEngine.TheSame<T>();
+        }
+
+        public T Any<T>()
+        {
+            return _parameterEngine.Any<T>();
         }
     }
 }

@@ -93,7 +93,7 @@ namespace Ninteract.Tests.Collaboration
             {
                 for (int i = 0; i < number; i++)
                 {
-                    autographs.Add(new Autograph());
+                    autographs.Add(new Autograph {IsSigned = true});
                 }
             }
             return autographs;
@@ -199,7 +199,10 @@ namespace Ninteract.Tests.Collaboration
 
     public class Bill { }
 
-    public class Autograph { }
+    public class Autograph
+    {
+        public bool IsSigned { get; set; }
+    }
 
     public class ContactInfo
     {

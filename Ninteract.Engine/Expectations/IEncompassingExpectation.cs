@@ -4,6 +4,7 @@
 // of the MIT license.  See the LICENSE file for details.
 
 using System;
+using System.Linq.Expressions;
 using Ninteract.Engine.Exceptions;
 
 namespace Ninteract.Engine
@@ -67,11 +68,11 @@ namespace Ninteract.Engine
         }
     }
 
-    public class ReturnsExpectation<TResult> : EncompassingExpectation
+    public class ReturnsValueExpectation<TResult> : EncompassingExpectation
     {
         private readonly TResult _expectedReturnValue;
 
-        public ReturnsExpectation(TResult expectedReturnValue)
+        public ReturnsValueExpectation(TResult expectedReturnValue)
         {
             _expectedReturnValue = expectedReturnValue;
         }
@@ -105,6 +106,40 @@ namespace Ninteract.Engine
                     ExceptionThrower.ThrowDidntReturn<TSut, TResult>(_expectedReturnValue);
                 }
             }
+            return value;
+        }
+    }
+
+    public class ReturnsPredicateExpectation<TResult> : EncompassingExpectation
+    {
+        private readonly Expression<Predicate<TResult>> _returnValueExpectation;
+
+        public ReturnsPredicateExpectation(Expression<Predicate<TResult>> returnValueExpectation)
+        {
+            _returnValueExpectation = returnValueExpectation;
+        }
+
+        public override object TriggerAndVerify<TSut>(Stimulus<TSut> stimulus, TSut sut)
+        {
+            var value = TriggerStimulus(stimulus, sut);
+                        TResult result;
+            try
+            {
+                result = (TResult)value;
+            }
+            catch (Exception)
+            {
+                throw new InvalidAssertionTargetException(
+                    string.Format("Expected value type {0} doesn't match actual method return type : {1}.",
+                                  typeof(TResult).Name,
+                                  stimulus.ToString()));
+            }
+
+            if (!_returnValueExpectation.Compile().Invoke(result))
+            {
+                ExceptionThrower.ThrowDidntReturn<TSut, TResult>(_returnValueExpectation);
+            }
+            
             return value;
         }
     }

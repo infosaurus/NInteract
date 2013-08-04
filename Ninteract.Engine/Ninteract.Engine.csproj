@@ -43,6 +43,7 @@
     <Compile Include="Exceptions\ExceptionMessageBuilder.cs" />
     <Compile Include="Exceptions\ExceptionThrower.cs" />
     <Compile Include="Exceptions\ExposedExceptions.cs" />
+    <Compile Include="Parameters\IParameterEngine.cs" />
     <Compile Include="MethodFormatter.cs" />
     <Compile Include="Exceptions\VerifyException.cs" />
     <Compile Include="ExternalBoundaries\IExpectedParameterFactory.cs" />
@@ -54,7 +55,7 @@
     <Compile Include="Expectations\IEncompassingExpectation.cs" />
     <Compile Include="NinteractEngine.cs" />
     <Compile Include="Exceptions\ParameterNotFoundException.cs" />
-    <Compile Include="ParameterPool.cs" />
+    <Compile Include="Parameters\ParameterPool.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Assumptions\ReturnsAssumption.cs" />
     <Compile Include="Stimulus.cs" />
