@@ -18,6 +18,7 @@ public class FooTest : CollaborationTest<Foo, IBar>
      .Assuming(itsBar => itsBar.Y()).Returns(Some<int>)
      .ShouldReturn(TheSame<int>);
 
+
     A.CallTo(foo => foo.DoX())
      .Assuming(itsBar => itsBar.Y()).Returns(null)
      .ShouldThrow<ZException>();
