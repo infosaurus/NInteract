@@ -77,6 +77,8 @@ namespace Ninteract.Tests.Collaboration
 
         public IList<Autograph> SignAutographs(int number)
         {
+            if (number == 0)
+                return null;
             object pen = null;
             IList<Autograph> autographs = new List<Autograph>();
             try
@@ -347,5 +349,13 @@ namespace Ninteract.Tests.Collaboration
     public interface INoteBook
     {
         object NextAppointment();
+    }
+
+    public class NoteBook : INoteBook
+    {
+        public object NextAppointment()
+        {
+            return null;
+        }
     }
 }

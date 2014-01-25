@@ -63,18 +63,52 @@ namespace Ninteract.Engine.Exceptions
                                  exceptionType.Name);
         }
 
-        public static string CreateDidntReturnValueMessage<TSut>(object result)
+        public static string CreateDidntReturnValueMessage<TSut>(object result, object actualReturnedValue)
         {
-            return string.Format("The {0} under test didn't return {1}", typeof (TSut).Name, result);
+            return string.Format(new ExceptionFormatProvider(),
+                                 "The {0} under test didn't return {1}. Actual return value was : {2}",
+                                 typeof(TSut).Name, result, actualReturnedValue);
         }
 
-        public static string CreateDidntReturnPredicateMessage<TSut, TResult>(Expression<Predicate<TResult>> returnValueExpectation)
+        public static string CreateDidntReturnPredicateMessage<TSut, TResult>(Expression<Predicate<TResult>> returnValueExpectation,
+                                                                              TResult actualReturnedValue)
         {
             var formattedPredicate = MethodFormatter.GetShortFormattedMethodCall(returnValueExpectation);
-            return string.Format("The {0} under test didn't return a {1} matching expectation : {2}",
+            return string.Format(new ExceptionFormatProvider(),
+                                 "The {0} under test didn't return a {1} matching expectation : {2}. Actual return value was : {3}",
                                  typeof(TSut).Name, 
                                  typeof(TResult).Name,
-                                 formattedPredicate);
+                                 formattedPredicate,
+                                 actualReturnedValue);
+        }
+    }
+
+    public class ExceptionFormatProvider : IFormatProvider, ICustomFormatter
+    {
+        public object GetFormat(Type service)
+        {
+            if (service == typeof(ICustomFormatter))
+            {
+                return this;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public string Format(string format, object arg, IFormatProvider provider)
+        {
+            if (arg == null)
+            {
+                return "null";
+            }
+            IFormattable formattable = arg as IFormattable;
+            if (formattable != null)
+            {
+                return formattable.ToString(format, provider);
+            }
+            return arg.ToString();
         }
     }
 }

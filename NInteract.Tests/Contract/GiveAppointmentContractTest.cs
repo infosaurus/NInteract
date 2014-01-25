@@ -3,39 +3,30 @@ using Ninteract.Tests.Collaboration;
 
 namespace Ninteract.Tests.Contract
 {
-    public abstract class IAssistantContract
+    public abstract class AssistantContract
     {
         [Test]
-        public void GiveAppointmentCanReturnNoAppointment()
+        public void GiveAppointment_NoAppointment()
         {
             var assistant = AssistantWithNoAppointment();
             var appointment = assistant.GiveNextAppointment();
-            Assert.AreEqual(NoAppointment(), appointment);
+            Assert.AreEqual(NoAppointment, appointment);
         }
 
         protected abstract IAssistant AssistantWithNoAppointment();
 
-        public static object NoAppointment()
+        public static object NoAppointment
         {
-            return null;
+            get { return null; }
         }
     }
 
-    //[TestFixture]
-    //public class AssistantContract : IAssistantContract
-    //{
-    //    protected override IAssistant AssistantWithNoAppointment()
-    //    {
-    //        return Sut.Assuming(sut => sut.NextAppointment()).Returns(null);
-    //    }
-    //}
-
-    //public class AssistantCollaborationTest : CollaborationTest<Assistant, INoteBook>
-    //{
-    //    public void AssistantNextAppointmentCallsNoteBook()
-    //    {
-    //        A.CallTo(assistant => assistant.GiveNextAppointment())
-    //         .ShouldAsk(noteBook => noteBook.NextAppointment());
-    //    }
-    //}
+    [TestFixture]
+    public class AssistantContractTest : AssistantContract
+    {
+        protected override IAssistant AssistantWithNoAppointment()
+        {
+            return new Assistant(new NoteBook());
+        }
+    }
 }

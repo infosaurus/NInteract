@@ -75,6 +75,14 @@ namespace Ninteract.Tests.Collaboration
         }
 
         [Test]
+        [ExpectedException(typeof(DidntReturnException))]
+        public void ShouldReturnSome_ReferenceTypeWhenNullReturned_Negative()
+        {
+            A.CallTo(star => star.SignAutographs(0))
+             .ShouldReturnSome<Autograph>(a => a.IsSigned);
+        }
+
+        [Test]
         public void ShouldReturnSome_ValueType_Positive()
         {
             A.CallTo(star => star.SignContract())

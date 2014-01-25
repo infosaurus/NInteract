@@ -29,7 +29,7 @@ namespace Ninteract.Tests.Collaboration
         public void AssumingReturns_Method_Positive()
         {
             A.CallTo(star => star.Bored())
-             .Assuming(assistant => assistant.GiveNextAppointment()).Returns(IAssistantContract.NoAppointment())
+             .Assuming(assistant => assistant.GiveNextAppointment()).Returns(AssistantContract.NoAppointment)
              .ShouldTell(assistant => assistant.GetMasseurNextAvailability(Any<int>()));
         }
 

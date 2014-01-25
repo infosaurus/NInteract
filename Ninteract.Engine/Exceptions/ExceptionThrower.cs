@@ -52,15 +52,15 @@ namespace Ninteract.Engine.Exceptions
             throw new DidntThrowException(message);
         }
 
-        public static void ThrowDidntReturn<TSut, TResult>(TResult result)
+        public static void ThrowDidntReturn<TSut, TResult>(TResult result, object actualReturnedValue)
         {
-            var message = ExceptionMessageBuilder.CreateDidntReturnValueMessage<TSut>(result);
+            var message = ExceptionMessageBuilder.CreateDidntReturnValueMessage<TSut>(result, actualReturnedValue);
             throw new DidntReturnException(message);
         }
 
-        public static void ThrowDidntReturn<TSut, TResult>(Expression<Predicate<TResult>> returnValueExpectation)
+        public static void ThrowDidntReturn<TSut, TResult>(Expression<Predicate<TResult>> returnValueExpectation, TResult actualReturnedValue)
         {
-            var message = ExceptionMessageBuilder.CreateDidntReturnPredicateMessage<TSut, TResult>(returnValueExpectation);
+            var message = ExceptionMessageBuilder.CreateDidntReturnPredicateMessage<TSut, TResult>(returnValueExpectation, actualReturnedValue);
             throw new DidntReturnException(message);
         }
     }

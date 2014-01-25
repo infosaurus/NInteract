@@ -83,7 +83,7 @@ namespace Ninteract.Engine
             if (value == null)
             {
                 if (_expectedReturnValue != null)
-                    ExceptionThrower.ThrowDidntReturn<TSut, TResult>(_expectedReturnValue);
+                    ExceptionThrower.ThrowDidntReturn<TSut, TResult>(_expectedReturnValue, null);
             }
             else
             {
@@ -103,7 +103,7 @@ namespace Ninteract.Engine
 
                 if (!result.Equals(_expectedReturnValue))
                 {
-                    ExceptionThrower.ThrowDidntReturn<TSut, TResult>(_expectedReturnValue);
+                    ExceptionThrower.ThrowDidntReturn<TSut, TResult>(_expectedReturnValue, result);
                 }
             }
             return value;
@@ -122,7 +122,7 @@ namespace Ninteract.Engine
         public override object TriggerAndVerify<TSut>(Stimulus<TSut> stimulus, TSut sut)
         {
             var value = TriggerStimulus(stimulus, sut);
-                        TResult result;
+            TResult result;
             try
             {
                 result = (TResult)value;
@@ -135,11 +135,22 @@ namespace Ninteract.Engine
                                   stimulus.ToString()));
             }
 
-            if (!_returnValueExpectation.Compile().Invoke(result))
+            var expectationWasMet = true;
+            try
             {
-                ExceptionThrower.ThrowDidntReturn<TSut, TResult>(_returnValueExpectation);
+                if (!_returnValueExpectation.Compile().Invoke(result))
+                {
+                    expectationWasMet = false;
+                }
             }
-            
+            catch (NullReferenceException) // most predicates can't be invoked on null objects
+            {
+                expectationWasMet = false;
+            }
+
+            if (!expectationWasMet)
+                ExceptionThrower.ThrowDidntReturn<TSut, TResult>(_returnValueExpectation, result);
+
             return value;
         }
     }
